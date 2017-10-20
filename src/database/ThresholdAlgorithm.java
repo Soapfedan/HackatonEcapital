@@ -34,7 +34,7 @@ public class ThresholdAlgorithm {
 			consAtt -= cons;
 			
 			ok = checkSogliaMassima(consAtt);
-			//if(ok) break;
+			if(ok) break;
 			
 			spenti.add(pl);
 			
