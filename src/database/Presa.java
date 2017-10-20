@@ -30,7 +30,30 @@ public class Presa {
 
 		} 
 	}
-	//modifica
+	
+	//Modifica dell'attuatore collegato
+	public static void updateAttuatore(int id, int at) {
+		Statement statement = null;
+
+		String alterTableSQL = "UPDATE "+TABLE_NAME+" SET "
+				+AT_ID+" = "+at
+				+" WHERE "+PLUG_ID+" = "+id;
+
+		try {
+			
+			statement = ConnectionHandler.getConn().createStatement();
+
+			System.out.println(alterTableSQL);
+
+			// execute insert SQL statement
+			statement.executeUpdate(alterTableSQL);
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+
+		} 
+	}
 	
 	//cancellazione
 }

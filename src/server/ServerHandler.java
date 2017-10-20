@@ -2,8 +2,11 @@ package server;
 
 import java.sql.SQLException;
 
+import database.Attuatore;
+import database.Categoria;
 import database.ConnectionHandler;
 import database.Prova;
+import database.Utente;
 
 public class ServerHandler {
 
@@ -12,7 +15,7 @@ public class ServerHandler {
 		System.out.println("prova");
 		try {
 			ConnectionHandler.init();
-			Prova.prova();
+			Categoria.updatePriorita(2, 4);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
