@@ -16,7 +16,7 @@ public class JsonServer {
 	private Thread worker;
 	
 	public JsonServer() throws IOException  {
-		server = HttpServer.create(new InetSocketAddress(8080), 0);
+		server = HttpServer.create(new InetSocketAddress(9600), 0);
 		server.createContext("/attuatori", new com.sun.net.httpserver.HttpHandler() {
 			
 			@Override
