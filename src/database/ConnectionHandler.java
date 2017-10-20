@@ -16,8 +16,5 @@ public class ConnectionHandler {
 	public static Connection getConn() {
 		return connection;
 	}
-
-	public static void closeConnection() throws SQLException {
-		connection.close();
-	}
+	
 }
