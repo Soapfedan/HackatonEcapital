@@ -138,8 +138,9 @@ public class Attuatore {
 		Statement stm = null;
 		ResultSet rs = null;
 		String json;
-		json = "{ "
-				+"\"consumo_tot\" :" + "\0\" },";
+		json = "{ \"consumo_att\": [ ";
+		json = json + "{ "
+				+"\"consumo_att\" :" + "\0\" },";
 		String query = "SELECT "+Consumo.CONSUMO+ 
 				" FROM ("+ 
 				"SELECT "+Consumo.CONSUMO+
@@ -156,12 +157,42 @@ public class Attuatore {
 			rs = stm.executeQuery(query);
 			rs.next();
 			json = "{ "
-					+"\"consumo_tot\" :" + "\""+rs.getInt(Consumo.CONSUMO)+"\" },";
+					+"\"consumo_att\" :" + "\""+rs.getInt(Consumo.CONSUMO)+"\" }";
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return json;
+	}
+	
+	public static int getCurrentConsumoInt(int id) {
+		Connection conn = ConnectionHandler.getConn();
+		Statement stm = null;
+		ResultSet rs = null;
+		
+		int cons = 0;
+		
+		String query = "SELECT "+Consumo.CONSUMO+ 
+				" FROM ("+ 
+				"SELECT "+Consumo.CONSUMO+
+				" FROM "+Consumo.TABLE_NAME+","+Presa.TABLE_NAME+","+TABLE_NAME+ 
+				" WHERE "+ TABLE_NAME+"."+AT_ID+" = "+id+ 
+				" AND "+ TABLE_NAME+"."+AT_ID+" = "+ Presa.TABLE_NAME+"."+Presa.AT_ID+ 
+				" AND "+Presa.TABLE_NAME+"."+Presa.PLUG_ID+" = "+Consumo.TABLE_NAME+"."+Consumo.PLUG_ID+ 
+				" ORDER BY "+Consumo.TIMEST+" DESC "+ 
+				")" + 
+				"WHERE ROWNUM = 1";
+		
+		try {
+			stm = conn.createStatement();
+			rs = stm.executeQuery(query);
+			rs.next();
+			cons = rs.getInt(Consumo.CONSUMO);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cons;
 	}
 }
