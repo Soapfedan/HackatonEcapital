@@ -8,6 +8,7 @@ import database.Categoria;
 import database.ConnectionHandler;
 import database.Consumo;
 import database.Prova;
+import database.ThresholdAlgorithm;
 import database.Utente;
 
 public class ServerHandler {
@@ -17,9 +18,7 @@ public class ServerHandler {
 		System.out.println("prova");
 		try {
 			ConnectionHandler.init();
-			System.out.println(Attuatore.getCurrentConsumo(2));
-			System.out.println(Attuatore.getAttuatori());
-			System.out.println(Consumo.getTotConsumo());
+			ThresholdAlgorithm.shutdownScheduling();
 			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
