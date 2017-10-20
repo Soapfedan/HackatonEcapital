@@ -5,4 +5,10 @@ public class Utente {
 	private final String NOME = "nome";
 	private final String COGNOME = "cognome";
 	private final String PASSWORD = "password";
+	
+	//registrazione
+	
+	//login
+	
+	
 }

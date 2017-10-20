@@ -5,4 +5,9 @@ public class Consumo {
 	private final String TIMEST = "tempo";
 	private final String CONSUMO = "consumo";
 	
+	/*public bool insert{
+		
+	}*/
+	
+	//ricerca
 }

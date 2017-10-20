@@ -7,4 +7,10 @@ public class Attuatore {
 	private final String DESCRIZIONE = "descrizione";
 	private final String CAT_ID = "cat_id";
 	private final String PRIORITA = "priorita";
+	
+	//inserimento
+	
+	//modifica
+	
+	//cancellazione
 }
