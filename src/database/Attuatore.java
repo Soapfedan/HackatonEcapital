@@ -195,4 +195,29 @@ public class Attuatore {
 		}
 		return cons;
 	}
+	
+	//Select numero attuatori con priorita pr
+	public static int countByPriority(int pr) {
+		Connection conn = ConnectionHandler.getConn();
+		Statement stm = null;
+		ResultSet rs = null;
+		
+		int count = 0;
+		
+		String query = "SELECT COUNT(*) AS COUNT" + 
+				" FROM "+TABLE_NAME+ 
+				" WHERE "+PRIORITA+" = "+pr;
+		
+		try {
+			stm = conn.createStatement();
+			rs = stm.executeQuery(query);
+			while(rs.next()) {
+				count = rs.getInt("COUNT");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 }
