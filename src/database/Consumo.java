@@ -42,7 +42,6 @@ public class Consumo {
 		ResultSet rs = null;
 		String json = null;
 		
-		json = "{ \"consumo_tot\": [ ";
 		
 		int consumo_tot = 0;
 		
@@ -62,10 +61,8 @@ public class Consumo {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		json = json+"{ "
+		json = "{ "
 				+"\"consumo_tot\" :" + "\""+consumo_tot+"\" }";
-		json = json + " ]"
-				+ "}";
 		return json;
 	}
 }

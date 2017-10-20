@@ -138,7 +138,6 @@ public class Attuatore {
 		Statement stm = null;
 		ResultSet rs = null;
 		String json;
-		json = "{ \"consumo_att\": [ ";
 		String query = "SELECT "+Consumo.CONSUMO+ 
 				" FROM ("+ 
 				"SELECT "+Consumo.CONSUMO+
@@ -154,17 +153,15 @@ public class Attuatore {
 			stm = conn.createStatement();
 			rs = stm.executeQuery(query);
 			rs.next();
-			json = json+"{ "
+			json = "{ "
 					+"\"consumo_att\" :" + "\""+rs.getInt(Consumo.CONSUMO)+"\" }";
 			
 		} catch (SQLException e) {
-			json = json + "{ "
+			json = "{ "
 					+"\"consumo_att\" :" + "\0\" }";
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		json = json + " ]"
-				+ "}";
 		return json;
 	}
 	
