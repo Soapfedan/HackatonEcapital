@@ -6,6 +6,9 @@ import java.net.InetSocketAddress;
 
 import com.sun.net.httpserver.*;
 
+import database.Attuatore;
+import database.Consumo;
+
 
 
 public class JsonServer {
@@ -13,12 +16,12 @@ public class JsonServer {
 	private Thread worker;
 	
 	public JsonServer() throws IOException  {
-		server = HttpServer.create(new InetSocketAddress(8000), 0);
+		server = HttpServer.create(new InetSocketAddress(8080), 0);
 		server.createContext("/attuatori", new com.sun.net.httpserver.HttpHandler() {
 			
 			@Override
 			public void handle(com.sun.net.httpserver.HttpExchange arg0) throws IOException {
-				String response = "This is the response";
+				String response = Attuatore.getAttuatori();
 	            arg0.sendResponseHeaders(200, response.length());
 	            OutputStream os = arg0.getResponseBody();
 	            os.write(response.getBytes());
@@ -29,13 +32,22 @@ public class JsonServer {
 			
 			@Override
 			public void handle(com.sun.net.httpserver.HttpExchange arg0) throws IOException {
-				
+				String response = Consumo.getTotConsumo();
+	            arg0.sendResponseHeaders(200, response.length());
+	            OutputStream os = arg0.getResponseBody();
+	            os.write(response.getBytes());
+	            os.close();	
 			}
 		});
-		server.createContext("/consumoattuatori", new com.sun.net.httpserver.HttpHandler() {
+		server.createContext("/consumoattuatore", new com.sun.net.httpserver.HttpHandler() {
 			
 			@Override
 			public void handle(com.sun.net.httpserver.HttpExchange arg0) throws IOException {
+				String response = Attuatore.getCurrentConsumo(Integer.parseInt(arg0.getRequestURI().getQuery()));
+	            arg0.sendResponseHeaders(200, response.length());
+	            OutputStream os = arg0.getResponseBody();
+	            os.write(response.getBytes());
+	            os.close();	
 				
 			}
 		});

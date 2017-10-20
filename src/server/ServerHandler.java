@@ -1,5 +1,6 @@
 package server;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import database.Attuatore;
@@ -11,7 +12,7 @@ import database.Utente;
 
 public class ServerHandler {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		System.out.println("prova");
 		try {
@@ -19,6 +20,7 @@ public class ServerHandler {
 			System.out.println(Attuatore.getCurrentConsumo(2));
 			System.out.println(Attuatore.getAttuatori());
 			System.out.println(Consumo.getTotConsumo());
+			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -26,6 +28,8 @@ public class ServerHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		JsonServer server = new JsonServer();
 		
 		
 		
