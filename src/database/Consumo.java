@@ -5,10 +5,10 @@ import java.sql.Statement;
 
 public class Consumo {
 	
-	private static final String TABLE_NAME = "CONSUMO";
-	private static final String PLUG_ID = "PLUG_ID";
-	private static final String TIMEST = "TEMPO";
-	private static final String CONSUMO = "P_CONS";
+	public static final String TABLE_NAME = "CONSUMO";
+	public static final String PLUG_ID = "PLUG_ID";
+	public static final String TIMEST = "TEMPO";
+	public static final String CONSUMO = "P_CONS";
 	
 	//Inserimento del consumo
 	public static void insertConsumo(int p_id, int cons){

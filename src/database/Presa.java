@@ -4,9 +4,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Presa {
-	private static final String PLUG_ID = "PLUG_ID";
-	private static final String AT_ID = "AT_ID";
-	private static final String TABLE_NAME = "PRESA";
+	public static final String PLUG_ID = "PLUG_ID";
+	public static final String AT_ID = "AT_ID";
+	public static final String TABLE_NAME = "PRESA";
+	
 	//inserimento
 	public static void insertCategoria(int at){
 		Statement statement = null;

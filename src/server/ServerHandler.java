@@ -15,7 +15,8 @@ public class ServerHandler {
 		System.out.println("prova");
 		try {
 			ConnectionHandler.init();
-			Categoria.updatePriorita(2, 4);
+			System.out.println(Attuatore.getCurrentConsumo(2));
+			System.out.println(Attuatore.getAttuatori());
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

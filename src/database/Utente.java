@@ -1,5 +1,7 @@
 package database;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -35,7 +37,25 @@ public class Utente {
 		} 
 	}
 	
-	//login
+	//Login
+	public static boolean login(String user, String password) {
+		Connection conn = ConnectionHandler.getConn();
+		Statement stm = null;
+		ResultSet rs = null;
+		int ok = 0;
+		String query = "select COUNT(*) as LOGIN from "+TABLE_NAME+" WHERE "+UTENTE+" = '"+user+"' AND "+PASSWORD+" = '"+password+"'";
+		try {
+			stm = conn.createStatement();
+			rs = stm.executeQuery(query);
+			while(rs.next()) {
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ok==1;
+	}
 	
 	//Modifica dell'indirizzo IP
 	public static void updateIP(String user, String ip) {

@@ -4,10 +4,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Categoria {
-	private static final String CAT_ID = "CAT_ID";
-	private static final String NOME = "NOME";
-	private static final String PRIORITA = "PRIORITA";
-	private static final String TABLE_NAME = "CATEGORIA";
+	public static final String CAT_ID = "CAT_ID";
+	public static final String NOME = "NOME";
+	public static final String PRIORITA = "PRIORITA";
+	public static final String TABLE_NAME = "CATEGORIA";
 	
 	//Inserimento nella tabella categoria
 	public static void insertCategoria(String nm, int pr){
