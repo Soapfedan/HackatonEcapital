@@ -62,8 +62,10 @@ public class Consumo {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		json = "{ "
+		json = json+"{ "
 				+"\"consumo_tot\" :" + "\""+consumo_tot+"\" }";
+		json = json + " ]"
+				+ "}";
 		return json;
 	}
 }
