@@ -11,6 +11,8 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
+import database.Utente;
+
 
 public class NotificationGenerator {
 
@@ -22,46 +24,18 @@ public class NotificationGenerator {
 	private static int count;
 	
 	
-	private static Runnable notificationThread(boolean stop, String msg){
-		ArrayList<String> ipList = new ArrayList<>();
-		///TODO PRELEVA LA LISTA DEGLI INDIRIZZI P
-		
+	public static Runnable notificationThread(boolean stop, String msg){
+		ArrayList<String> ipList = Utente.getIp();		
 		r = new Runnable() {
 			
 			@Override
 			public void run() {
 				while(running){
-				
-					
-					//wait until the user clicks on the send button
-					
-					/*
-					if(notlist.getList()!=null){
-						notlist.getList().clear();
-					}*/
-					
-					
-					
-					//String json = "{"; //\"notifications\": [ ";					
-					/*for(int k=0;k<notlist.getList().size()-1;k++){
-						json = json + "{ "
-								+"\"msg\" :" + "\""+notlist.getList().get(k).getId()+"\","
-								+"\"cod_cat\" :" + "\"" + notlist.getList().get(k).getCod_cat()+"\","
-								+"\"floor\" :" + "\""+ notlist.getList().get(k).getFloor()+"\","
-								+"\"room\" :" + "\""+ notlist.getList().get(k).getRoom() +"\" },";
-					}*/
 					String json =  "{ "
 							+"\"msg\" :" + "\""+ msg+"\" }";
 					 
 					
-					
-					//json = json + " ]"
-						//	+ "}";
-					//System.out.println("Stop "+stop);
 					System.out.println(json);
-					//if(userlist.getUsers()!=null){
-						//userlist.getUsers().clear();
-					//}
 					
 					
 					count = 0;

@@ -31,7 +31,7 @@ public class ServerHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		ThresholdAlgorithm.start();
 		JsonServer server = new JsonServer();
 		
 		

@@ -3,11 +3,26 @@ package database;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import com.sun.nio.sctp.Notification;
+
 import plug.PlugConnection;
+import server.NotificationGenerator;
 
 public class ThresholdAlgorithm {
 	
 	public static final int CONSUMO_TOT = 2900; 
+	
+	public static void start() {
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				if(!checkSogliaMassima()) {
+					shutdownScheduling();
+				}
+			}
+		}).start();;
+	}
 	
 	public static boolean checkSogliaMassima() {
 		int consAtt = Consumo.getTotConsumoInt();
@@ -19,6 +34,9 @@ public class ThresholdAlgorithm {
 	}
 	
 	public static void shutdownScheduling() {
+		new Thread(
+				NotificationGenerator.notificationThread(true, "Attenzione! Hai superato il limite di consumo"))
+		.start();
 		
 		int priorita = 1;
 		int[] currPlug;
@@ -36,7 +54,9 @@ public class ThresholdAlgorithm {
 			consAtt -= cons;
 			
 			ok = checkSogliaMassima(consAtt);
-			if(ok) break;
+			if(ok) {
+				break;
+			}
 			
 			spenti.add(pl);
 			

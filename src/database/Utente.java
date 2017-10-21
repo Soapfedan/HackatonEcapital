@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Utente {
 	private static final String TABLE_NAME = "UTENTE";
@@ -58,6 +59,27 @@ public class Utente {
 		}
 		return ok==1;
 	}
+
+		public static ArrayList<String> getIp() {
+			ArrayList<String> ip = new ArrayList<>();
+			Connection conn = ConnectionHandler.getConn();
+			Statement stm = null;
+			ResultSet rs = null;
+			int ok = 0;
+			String query = "select " + IP + " from " + TABLE_NAME;
+			try {
+				stm = conn.createStatement();
+				stm.closeOnCompletion();
+				rs = stm.executeQuery(query);
+				while(rs.next()) {
+					ip.add(rs.getString(IP));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return ip;
+		}
 	
 	//Modifica dell'indirizzo IP
 	public static void updateIP(String user, String ip) {
