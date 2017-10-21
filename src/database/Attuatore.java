@@ -32,6 +32,7 @@ public class Attuatore {
 			// execute insert SQL statement
 			statement.executeUpdate(insertTableSQL);
 			statement.close();
+			ConnectionHandler.getConn().commit();
 		} catch (SQLException e) {
 
 			System.out.println(e.getMessage());
@@ -56,6 +57,7 @@ public class Attuatore {
 			// execute insert SQL statement
 			statement.executeUpdate(alterTableSQL);
 			statement.close();
+			ConnectionHandler.getConn().commit();
 		} catch (SQLException e) {
 
 			System.out.println(e.getMessage());
@@ -78,7 +80,7 @@ public class Attuatore {
 
 			// execute insert SQL statement
 			statement.executeUpdate(alterTableSQL);
-
+			ConnectionHandler.getConn().commit();
 		} catch (SQLException e) {
 
 			System.out.println(e.getMessage());
@@ -125,6 +127,8 @@ public class Attuatore {
 						+"\"categoria\" :" + "\""+ rs.getString("CATEGORIA_NOME") +"\" }";	 
 			json = json + " ]"
 						+ "}";
+			stm.close();
+			ConnectionHandler.getConn().commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,7 +152,6 @@ public class Attuatore {
 				" ORDER BY "+Consumo.TIMEST+" DESC "+ 
 				")" + 
 				"WHERE ROWNUM = 1";
-		System.out.println(query);
 		try {
 			stm = conn.createStatement();
 			rs = stm.executeQuery(query);
@@ -156,6 +159,9 @@ public class Attuatore {
 				json = "{ "
 					+"\"consumo_att\" :" + "\""+rs.getInt(Consumo.CONSUMO)+"\" }";
 			}
+			
+			stm.close();
+			ConnectionHandler.getConn().commit();
 			
 		} catch (SQLException e) {
 			json = "{ "
@@ -192,6 +198,8 @@ public class Attuatore {
 			while(rs.next()) {
 				cons = rs.getInt(Consumo.CONSUMO);
 			}
+			stm.close();
+			ConnectionHandler.getConn().commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -217,6 +225,8 @@ public class Attuatore {
 			while(rs.next()) {
 				count = rs.getInt("COUNT");
 			}
+			stm.close();
+			ConnectionHandler.getConn().commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

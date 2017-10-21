@@ -25,6 +25,7 @@ public class Presa {
 			// execute insert SQL statement
 			statement.executeUpdate(insertTableSQL);
 			statement.close();
+			ConnectionHandler.getConn().commit();
 		} catch (SQLException e) {
 
 			System.out.println(e.getMessage());
@@ -49,6 +50,7 @@ public class Presa {
 			// execute insert SQL statement
 			statement.executeUpdate(alterTableSQL);
 			statement.close();
+			ConnectionHandler.getConn().commit();
 		} catch (SQLException e) {
 
 			System.out.println(e.getMessage());

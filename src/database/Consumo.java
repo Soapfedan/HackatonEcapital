@@ -29,10 +29,14 @@ public class Consumo {
 
 			// execute insert SQL stetement
 			statement.executeUpdate(insertTableSQL);
+			
 			statement.close();
+			
+			ConnectionHandler.getConn().commit();
+			
 		} catch (SQLException e) {
 
-		} 
+		}
 	}
 	
 	public static String getTotConsumo() {
@@ -56,6 +60,7 @@ public class Consumo {
 				consumo_tot += Attuatore.getCurrentConsumoInt(id);
 			}
 			stm.close();
+			ConnectionHandler.getConn().commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,6 +90,7 @@ public class Consumo {
 				consumo_tot += Attuatore.getCurrentConsumoInt(id);
 			}
 			stm.close();
+			ConnectionHandler.getConn().commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -132,6 +138,7 @@ public class Consumo {
 				plCons = rs.getInt(CONSUMO);
 			}
 			stm.close();
+			ConnectionHandler.getConn().commit();
 		} catch (SQLException e) {
 			query = "SELECT "+PLUG_ID+","+CONSUMO+
 					" FROM ("+ 
@@ -153,6 +160,7 @@ public class Consumo {
 					plCons = rsexc.getInt(CONSUMO);
 				}
 				stmexc.close();
+				ConnectionHandler.getConn().commit();
 			} catch (SQLException g) {
 				g.printStackTrace();
 			}

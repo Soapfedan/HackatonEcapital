@@ -31,6 +31,7 @@ public class Utente {
 			// execute insert SQL statement
 			statement.executeUpdate(insertTableSQL);
 			statement.close();
+			ConnectionHandler.getConn().commit();
 		} catch (SQLException e) {
 
 			System.out.println(e.getMessage());
@@ -49,9 +50,10 @@ public class Utente {
 			stm = conn.createStatement();
 			rs = stm.executeQuery(query);
 			while(rs.next()) {
-				
+				ok = rs.getInt("LOGIN");
 			}
 			stm.close();
+			ConnectionHandler.getConn().commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,6 +75,7 @@ public class Utente {
 					ip.add(rs.getString(IP));
 				}
 				stm.close();
+				ConnectionHandler.getConn().commit();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -96,6 +99,7 @@ public class Utente {
 			// execute insert SQL statement
 			statement.executeUpdate(alterTableSQL);
 			statement.close();
+			ConnectionHandler.getConn().commit();
 		} catch (SQLException e) {
 
 			System.out.println(e.getMessage());
