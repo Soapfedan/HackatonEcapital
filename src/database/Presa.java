@@ -19,13 +19,12 @@ public class Presa {
 		try {
 			
 			statement = ConnectionHandler.getConn().createStatement();
-			statement.closeOnCompletion();
 
 			System.out.println(insertTableSQL);
 
 			// execute insert SQL statement
 			statement.executeUpdate(insertTableSQL);
-
+			statement.close();
 		} catch (SQLException e) {
 
 			System.out.println(e.getMessage());
@@ -44,13 +43,12 @@ public class Presa {
 		try {
 			
 			statement = ConnectionHandler.getConn().createStatement();
-			statement.closeOnCompletion();
 
 			System.out.println(alterTableSQL);
 
 			// execute insert SQL statement
 			statement.executeUpdate(alterTableSQL);
-
+			statement.close();
 		} catch (SQLException e) {
 
 			System.out.println(e.getMessage());

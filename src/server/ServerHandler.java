@@ -8,7 +8,6 @@ import database.Attuatore;
 import database.Categoria;
 import database.ConnectionHandler;
 import database.Consumo;
-import database.Prova;
 import database.ThresholdAlgorithm;
 import database.Utente;
 import plug.PlugConnection;

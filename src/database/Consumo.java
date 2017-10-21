@@ -24,12 +24,12 @@ public class Consumo {
 		try {
 			
 			statement = ConnectionHandler.getConn().createStatement();
-			statement.closeOnCompletion();
 
 			System.out.println(insertTableSQL);
 
 			// execute insert SQL stetement
 			statement.executeUpdate(insertTableSQL);
+			statement.close();
 		} catch (SQLException e) {
 
 		} 
@@ -49,14 +49,13 @@ public class Consumo {
 		
 		try {
 			stm = conn.createStatement();
-			stm.closeOnCompletion();
 			rs = stm.executeQuery(query);
 			
 			while(rs.next()) {
 				int id = rs.getInt(Attuatore.AT_ID);
 				consumo_tot += Attuatore.getCurrentConsumoInt(id);
 			}
-			
+			stm.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,14 +78,13 @@ public class Consumo {
 		
 		try {
 			stm = conn.createStatement();
-			stm.closeOnCompletion();
 			rs = stm.executeQuery(query);
 			
 			while(rs.next()) {
 				int id = rs.getInt(Attuatore.AT_ID);
 				consumo_tot += Attuatore.getCurrentConsumoInt(id);
 			}
-			
+			stm.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -127,14 +125,13 @@ public class Consumo {
 		
 		try {
 			stm = conn.createStatement();
-			stm.closeOnCompletion();
 			rs = stm.executeQuery(query);
 			
 			while(rs.next()) {
 				plId = rs.getInt(PLUG_ID);
 				plCons = rs.getInt(CONSUMO);
 			}
-			
+			stm.close();
 		} catch (SQLException e) {
 			query = "SELECT "+PLUG_ID+","+CONSUMO+
 					" FROM ("+ 
@@ -149,13 +146,13 @@ public class Consumo {
 					" WHERE ROWNUM = 1";
 			try {
 				stmexc = conn.createStatement();
-				stmexc.closeOnCompletion();
 				rsexc = stmexc.executeQuery(query);
 				
 				while(rsexc.next()) {
 					plId = rsexc.getInt(PLUG_ID);
 					plCons = rsexc.getInt(CONSUMO);
 				}
+				stmexc.close();
 			} catch (SQLException g) {
 				g.printStackTrace();
 			}

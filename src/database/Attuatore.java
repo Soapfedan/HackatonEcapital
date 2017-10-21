@@ -31,7 +31,7 @@ public class Attuatore {
 
 			// execute insert SQL statement
 			statement.executeUpdate(insertTableSQL);
-
+			statement.close();
 		} catch (SQLException e) {
 
 			System.out.println(e.getMessage());
@@ -55,7 +55,7 @@ public class Attuatore {
 
 			// execute insert SQL statement
 			statement.executeUpdate(alterTableSQL);
-
+			statement.close();
 		} catch (SQLException e) {
 
 			System.out.println(e.getMessage());

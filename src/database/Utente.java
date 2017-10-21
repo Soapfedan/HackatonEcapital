@@ -25,13 +25,12 @@ public class Utente {
 		try {
 			
 			statement = ConnectionHandler.getConn().createStatement();
-			statement.closeOnCompletion();
 
 			System.out.println(insertTableSQL);
 
 			// execute insert SQL statement
 			statement.executeUpdate(insertTableSQL);
-
+			statement.close();
 		} catch (SQLException e) {
 
 			System.out.println(e.getMessage());
@@ -48,11 +47,11 @@ public class Utente {
 		String query = "select COUNT(*) as LOGIN from "+TABLE_NAME+" WHERE "+UTENTE+" = '"+user+"' AND "+PASSWORD+" = '"+password+"'";
 		try {
 			stm = conn.createStatement();
-			stm.closeOnCompletion();
 			rs = stm.executeQuery(query);
 			while(rs.next()) {
 				
 			}
+			stm.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,11 +68,11 @@ public class Utente {
 			String query = "select " + IP + " from " + TABLE_NAME;
 			try {
 				stm = conn.createStatement();
-				stm.closeOnCompletion();
 				rs = stm.executeQuery(query);
 				while(rs.next()) {
 					ip.add(rs.getString(IP));
 				}
+				stm.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -92,12 +91,11 @@ public class Utente {
 		try {
 			
 			statement = ConnectionHandler.getConn().createStatement();
-			statement.closeOnCompletion();
 			System.out.println(alterTableSQL);
 
 			// execute insert SQL statement
 			statement.executeUpdate(alterTableSQL);
-
+			statement.close();
 		} catch (SQLException e) {
 
 			System.out.println(e.getMessage());
