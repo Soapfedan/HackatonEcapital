@@ -19,10 +19,11 @@ import com.fazecast.jSerialComm.SerialPortPacketListener;
 
 public class PlugConnection implements SerialPortPacketListener{
 	private Queue<PlugData> dataQueue;
+	private SerialPort port;
 	
 	public PlugConnection(String portName, int baudrate) {
 		dataQueue = new ConcurrentLinkedQueue<>();
-		SerialPort port = SerialPort.getCommPort(portName);
+		port = SerialPort.getCommPort(portName);
 		port.setBaudRate(baudrate);
 		port.addDataListener(this);
 	}
@@ -36,6 +37,24 @@ public class PlugConnection implements SerialPortPacketListener{
 		while(dataQueue.size() > 0) {
 			buffer.add(dataQueue.poll());
 		}
+	}
+	
+	public List<PlugData> read() {
+		List<PlugData> data = new LinkedList<>();
+		while(dataQueue.size() > 0) {
+			data.add(dataQueue.poll());
+		}
+		return data;
+	}
+	
+	public void setPlug(int id, boolean on) {
+		byte[] buff = new byte[5];
+		buff[0] = (byte) ((id & 0xFF000000) >> 24);
+		buff[1] = (byte) ((id & 0x00FF0000) >> 16);
+		buff[2] = (byte) ((id & 0x0000FF00) >> 8);
+		buff[3] = (byte) ((id & 0x000000FF));
+		buff[4] = (byte) ((on) ? 0xFF : 0x00);
+		port.writeBytes(buff, buff.length);
 	}
 	
 	@Override
