@@ -16,13 +16,26 @@ import plug.PlugData;
 public class ServerHandler {
 
 	public static void main(String[] args) throws IOException {
-		PlugConnection conn = new PlugConnection("COM6", 115200);
+		PlugConnection conn = new PlugConnection("COM7", 115200);
 		
 		while(true) {
-			for(PlugData data : conn.read(10)) {
-				System.out.println(data.toString());
+			while(conn.hasData()) {
+				System.out.println(conn.getPlugData().toString());
 			}
-			//conn.setPlug(123323, false);
+			
+			conn.setPlug(2, true);
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				
+			}
+			conn.setPlug(2, false);
+
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				
+			}
 		}
 		
 	}
