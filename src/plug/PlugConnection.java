@@ -50,7 +50,6 @@ public class PlugConnection {
 					if(line == null || line.length() == 0) {
 						return;
 					}
-					System.out.println("Debug: " + line);
 					line = line.substring(1);
 					String[] split = line.split(";");
 					if(split.length != 2) {
@@ -59,8 +58,12 @@ public class PlugConnection {
 					
 					int id = Integer.parseInt(split[0]);
 					int consumo =  Math.max(Integer.parseInt(split[1]), 0);
+					if(consumo < 20)
+						consumo = 0;
 					
 					Consumo.insertConsumo(id, consumo);
+					System.out.println("Debug: " + line);
+
 
 				 } catch (Exception e) {
 				}
@@ -74,7 +77,7 @@ public class PlugConnection {
 	}
 
 	public static void setPlug(int id, boolean on) {
-		String ons = ((on) ? "1" : "0");
+		String ons = ((!on) ? "1" : "0");
 		try {
 			writer.write("#" + id + ";" + ons + "\n");
 			writer.flush();

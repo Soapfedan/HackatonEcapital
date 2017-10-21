@@ -10,16 +10,21 @@ import server.NotificationGenerator;
 
 public class ThresholdAlgorithm {
 	
-	public static final int CONSUMO_TOT = 2900; 
+	public static final int CONSUMO_TOT = 2000; 
 	
 	public static void start() {
 		new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
-				if(!checkSogliaMassima()) {
-					shutdownScheduling();
-				}
+				do {
+					try {
+						Thread.sleep(10000);
+					} catch (InterruptedException e) {}
+					if(!checkSogliaMassima()) {
+						shutdownScheduling();
+					}
+				} while(true);
 			}
 		}).start();;
 	}
@@ -34,9 +39,14 @@ public class ThresholdAlgorithm {
 	}
 	
 	public static void shutdownScheduling() {
-		new Thread(
-				NotificationGenerator.notificationThread(true, "Attenzione! Hai superato il limite di consumo"))
-		.start();
+		Thread notify = new Thread(
+				NotificationGenerator.notificationThread(true, "Attenzione! Hai superato il limite di consumo"));
+		notify.start();
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e2) {
+		}
 		
 		int priorita = 1;
 		int[] currPlug;
@@ -55,7 +65,10 @@ public class ThresholdAlgorithm {
 			
 			ok = checkSogliaMassima(consAtt);
 			if(ok) {
+				
 				break;
+			} else {
+				
 			}
 			
 			spenti.add(pl);
