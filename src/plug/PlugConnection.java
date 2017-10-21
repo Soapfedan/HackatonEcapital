@@ -17,7 +17,8 @@ import com.fazecast.jSerialComm.SerialPortEvent;
 import com.fazecast.jSerialComm.SerialPortPacketListener;
 
 
-public class PlugConnection implements SerialPortPacketListener{
+public class PlugConnection {
+	private static final byte PACKET_BEGIN = (byte) 0x23;
 	private Queue<PlugData> dataQueue;
 	private SerialPort port;
 	
@@ -25,24 +26,23 @@ public class PlugConnection implements SerialPortPacketListener{
 		dataQueue = new ConcurrentLinkedQueue<>();
 		port = SerialPort.getCommPort(portName);
 		port.setBaudRate(baudrate);
-		port.addDataListener(this);
-	}
-
-	@Override
-	public int getListeningEvents() {
-		return SerialPort.LISTENING_EVENT_DATA_WRITTEN;
+		port.setComPortTimeouts(
+				SerialPort.TIMEOUT_READ_BLOCKING | SerialPort.TIMEOUT_WRITE_BLOCKING, 
+				100, 100);
+		port.openPort();
 	}
 	
-	public void fillArray(List<PlugData> buffer) {
-		while(dataQueue.size() > 0) {
-			buffer.add(dataQueue.poll());
-		}
-	}
-	
-	public List<PlugData> read() {
+	public List<PlugData> read(int max) {
 		List<PlugData> data = new LinkedList<>();
-		while(dataQueue.size() > 0) {
-			data.add(dataQueue.poll());
+		byte[] buff = new byte[8];
+
+		while(data.size() < max) {
+			do {
+				port.readBytes(buff, 1);
+			} while(buff[0] != PACKET_BEGIN);
+			
+			port.readBytes(buff, 8);
+			data.add(new PlugData(buff));
 		}
 		return data;
 	}
@@ -56,16 +56,7 @@ public class PlugConnection implements SerialPortPacketListener{
 		buff[4] = (byte) ((on) ? 0xFF : 0x00);
 		port.writeBytes(buff, buff.length);
 	}
-	
-	@Override
-	public void serialEvent(SerialPortEvent evt) {
-		dataQueue.add(new PlugData(evt.getReceivedData()));
-	}
 
-	@Override
-	public int getPacketSize() {
-		return 8;
-	}
 	
 	
 	
