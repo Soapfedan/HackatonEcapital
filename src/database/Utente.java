@@ -24,6 +24,7 @@ public class Utente {
 		try {
 			
 			statement = ConnectionHandler.getConn().createStatement();
+			statement.closeOnCompletion();
 
 			System.out.println(insertTableSQL);
 
@@ -46,6 +47,7 @@ public class Utente {
 		String query = "select COUNT(*) as LOGIN from "+TABLE_NAME+" WHERE "+UTENTE+" = '"+user+"' AND "+PASSWORD+" = '"+password+"'";
 		try {
 			stm = conn.createStatement();
+			stm.closeOnCompletion();
 			rs = stm.executeQuery(query);
 			while(rs.next()) {
 				
@@ -68,7 +70,7 @@ public class Utente {
 		try {
 			
 			statement = ConnectionHandler.getConn().createStatement();
-
+			statement.closeOnCompletion();
 			System.out.println(alterTableSQL);
 
 			// execute insert SQL statement

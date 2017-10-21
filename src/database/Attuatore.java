@@ -137,7 +137,7 @@ public class Attuatore {
 		Connection conn = ConnectionHandler.getConn();
 		Statement stm = null;
 		ResultSet rs = null;
-		String json;
+		String json = null;
 		String query = "SELECT "+Consumo.CONSUMO+ 
 				" FROM ("+ 
 				"SELECT "+Consumo.CONSUMO+
@@ -148,13 +148,14 @@ public class Attuatore {
 				" ORDER BY "+Consumo.TIMEST+" DESC "+ 
 				")" + 
 				"WHERE ROWNUM = 1";
-		
+		System.out.println(query);
 		try {
 			stm = conn.createStatement();
 			rs = stm.executeQuery(query);
-			rs.next();
-			json = "{ "
+			while(rs.next()) {
+				json = "{ "
 					+"\"consumo_att\" :" + "\""+rs.getInt(Consumo.CONSUMO)+"\" }";
+			}
 			
 		} catch (SQLException e) {
 			json = "{ "
@@ -162,6 +163,8 @@ public class Attuatore {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		System.out.println(json);
 		return json;
 	}
 	

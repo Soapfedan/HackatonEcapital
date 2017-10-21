@@ -2,6 +2,7 @@ package server;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import database.Attuatore;
 import database.Categoria;
@@ -18,7 +19,8 @@ public class ServerHandler {
 		System.out.println("prova");
 		try {
 			ConnectionHandler.init();
-			ThresholdAlgorithm.shutdownScheduling();
+			//ThresholdAlgorithm.shutdownScheduling();
+			//Attuatore.getCurrentConsumoInt(2);
 			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

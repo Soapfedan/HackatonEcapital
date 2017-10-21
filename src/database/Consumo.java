@@ -24,15 +24,13 @@ public class Consumo {
 		try {
 			
 			statement = ConnectionHandler.getConn().createStatement();
+			statement.closeOnCompletion();
 
 			System.out.println(insertTableSQL);
 
 			// execute insert SQL stetement
 			statement.executeUpdate(insertTableSQL);
-
 		} catch (SQLException e) {
-
-			System.out.println(e.getMessage());
 
 		} 
 	}
@@ -51,6 +49,7 @@ public class Consumo {
 		
 		try {
 			stm = conn.createStatement();
+			stm.closeOnCompletion();
 			rs = stm.executeQuery(query);
 			
 			while(rs.next()) {
@@ -80,6 +79,7 @@ public class Consumo {
 		
 		try {
 			stm = conn.createStatement();
+			stm.closeOnCompletion();
 			rs = stm.executeQuery(query);
 			
 			while(rs.next()) {
@@ -96,8 +96,8 @@ public class Consumo {
 	
 	public static int[] getMaxConsXPriority(int pr, ArrayList<Integer> sp) {
 		Connection conn = ConnectionHandler.getConn();
-		Statement stm = null;
-		ResultSet rs = null;
+		Statement stm = null, stmexc = null;
+		ResultSet rs = null, rsexc = null;
 		
 		
 		int plId = 0;
@@ -127,6 +127,7 @@ public class Consumo {
 		
 		try {
 			stm = conn.createStatement();
+			stm.closeOnCompletion();
 			rs = stm.executeQuery(query);
 			
 			while(rs.next()) {
@@ -145,14 +146,15 @@ public class Consumo {
 					" GROUP BY "+Attuatore.TABLE_NAME+"."+Attuatore.AT_ID+","+CONSUMO+","+TIMEST+","+TABLE_NAME+"."+Consumo.PLUG_ID+
 					" ORDER BY "+TIMEST+" DESC" + 
 					")" + 
-					"WHERE ROWNUM = 1";
+					" WHERE ROWNUM = 1";
 			try {
-				stm = conn.createStatement();
-				rs = stm.executeQuery(query);
+				stmexc = conn.createStatement();
+				stmexc.closeOnCompletion();
+				rsexc = stmexc.executeQuery(query);
 				
-				while(rs.next()) {
-					plId = rs.getInt(PLUG_ID);
-					plCons = rs.getInt(CONSUMO);
+				while(rsexc.next()) {
+					plId = rsexc.getInt(PLUG_ID);
+					plCons = rsexc.getInt(CONSUMO);
 				}
 			} catch (SQLException g) {
 				g.printStackTrace();

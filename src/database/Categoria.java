@@ -20,6 +20,7 @@ public class Categoria {
 		try {
 			
 			statement = ConnectionHandler.getConn().createStatement();
+			statement.closeOnCompletion();
 
 			System.out.println(insertTableSQL);
 
@@ -50,6 +51,7 @@ public class Categoria {
 		try {
 			
 			statement = ConnectionHandler.getConn().createStatement();
+			statement.closeOnCompletion();
 
 			System.out.println(alterTableSQL);
 
@@ -73,6 +75,7 @@ public class Categoria {
 		try {
 			
 			statement = ConnectionHandler.getConn().createStatement();
+			statement.closeOnCompletion();
 
 			System.out.println(alterTableSQL);
 

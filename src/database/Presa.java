@@ -19,6 +19,7 @@ public class Presa {
 		try {
 			
 			statement = ConnectionHandler.getConn().createStatement();
+			statement.closeOnCompletion();
 
 			System.out.println(insertTableSQL);
 
@@ -43,6 +44,7 @@ public class Presa {
 		try {
 			
 			statement = ConnectionHandler.getConn().createStatement();
+			statement.closeOnCompletion();
 
 			System.out.println(alterTableSQL);
 
