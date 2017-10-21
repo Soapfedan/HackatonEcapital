@@ -11,14 +11,16 @@ import database.Consumo;
 import database.Prova;
 import database.ThresholdAlgorithm;
 import database.Utente;
+import plug.PlugConnection;
 
 public class ServerHandler {
 
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-		System.out.println("prova");
+		
+		PlugConnection.init(args[0], 9600);
+		
 		try {
-			ConnectionHandler.init();
+			ConnectionHandler.init(args[1]);
 			//ThresholdAlgorithm.shutdownScheduling();
 			//Attuatore.getCurrentConsumoInt(2);
 			

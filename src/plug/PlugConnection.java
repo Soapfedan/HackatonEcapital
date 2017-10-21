@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
@@ -16,61 +17,70 @@ import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 import com.fazecast.jSerialComm.SerialPortPacketListener;
 
+import database.Consumo;
 
-public class PlugConnection implements SerialPortPacketListener{
-	private Queue<PlugData> dataQueue;
-	private SerialPort port;
+
+public class PlugConnection {
+	private static final byte PACKET_BEGIN = (byte) 0x23;
+	private static SerialPort port;
+	private static OutputStreamWriter writer;
+	private static BufferedReader reader;
 	
-	public PlugConnection(String portName, int baudrate) {
-		dataQueue = new ConcurrentLinkedQueue<>();
+	public static void init(String portName, int baudrate) {
+		
 		port = SerialPort.getCommPort(portName);
 		port.setBaudRate(baudrate);
-		port.addDataListener(this);
+		port.setComPortTimeouts(
+				SerialPort.TIMEOUT_READ_BLOCKING | SerialPort.TIMEOUT_WRITE_BLOCKING, 
+				100, 100);
+		port.addDataListener(new SerialPortDataListener() {
+			
+			@Override
+			public int getListeningEvents() {
+				return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
+			}
+
+			@Override
+			public void serialEvent(SerialPortEvent evt) {
+				 if (evt.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE)
+			         return;
+				 
+				 try {
+					String line = reader.readLine();
+					if(line == null || line.length() == 0) {
+						return;
+					}
+					System.out.println("Debug: " + line);
+					line = line.substring(1);
+					String[] split = line.split(";");
+					if(split.length != 2) {
+						return;
+					}
+					
+					int id = Integer.parseInt(split[0]);
+					int consumo =  Math.max(Integer.parseInt(split[1]), 0);
+					
+					Consumo.insertConsumo(id, consumo);
+
+				 } catch (Exception e) {
+				}
+				 
+			}
+		});
+		port.openPort();
+		
+		writer = new OutputStreamWriter(port.getOutputStream());
+		reader = new BufferedReader(new InputStreamReader(port.getInputStream()));
 	}
 
-	@Override
-	public int getListeningEvents() {
-		return SerialPort.LISTENING_EVENT_DATA_WRITTEN;
-	}
-	
-	public void fillArray(List<PlugData> buffer) {
-		while(dataQueue.size() > 0) {
-			buffer.add(dataQueue.poll());
+	public static void setPlug(int id, boolean on) {
+		String ons = ((on) ? "1" : "0");
+		try {
+			writer.write("#" + id + ";" + ons + "\n");
+			writer.flush();
+		} catch (IOException e) {
 		}
-	}
-	
-	public List<PlugData> read() {
-		List<PlugData> data = new LinkedList<>();
-		while(dataQueue.size() > 0) {
-			data.add(dataQueue.poll());
-		}
-		return data;
-	}
-	
-	public void setPlug(int id, boolean on) {
-		byte[] buff = new byte[5];
-		buff[0] = (byte) ((id & 0xFF000000) >> 24);
-		buff[1] = (byte) ((id & 0x00FF0000) >> 16);
-		buff[2] = (byte) ((id & 0x0000FF00) >> 8);
-		buff[3] = (byte) ((id & 0x000000FF));
-		buff[4] = (byte) ((on) ? 0xFF : 0x00);
-		port.writeBytes(buff, buff.length);
-	}
-	
-	@Override
-	public void serialEvent(SerialPortEvent evt) {
-		dataQueue.add(new PlugData(evt.getReceivedData()));
 	}
 
-	@Override
-	public int getPacketSize() {
-		return 8;
-	}
-	
-	
-	
-	
-	
-	
 
 }

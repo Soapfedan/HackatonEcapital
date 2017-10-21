@@ -8,6 +8,7 @@ import com.sun.net.httpserver.*;
 
 import database.Attuatore;
 import database.Consumo;
+import plug.PlugConnection;
 
 
 
@@ -51,11 +52,17 @@ public class JsonServer {
 				
 			}
 		});
-		server.createContext("/modpriorita", new com.sun.net.httpserver.HttpHandler() {
+		server.createContext("/togglepresa", new com.sun.net.httpserver.HttpHandler() {
 			
 			@Override
 			public void handle(com.sun.net.httpserver.HttpExchange arg0) throws IOException {
-				
+				int id = Integer.parseInt(arg0.getRequestURI().getQuery());
+				int consumo = Integer.parseInt(Attuatore.getCurrentConsumo(id));
+				if (consumo < 5 && consumo > -5) {
+					PlugConnection.setPlug(id, true);
+				} else {
+					PlugConnection.setPlug(id, false);
+				}
 			}
 		});
 		

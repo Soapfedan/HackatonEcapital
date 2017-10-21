@@ -3,6 +3,8 @@ package database;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import plug.PlugConnection;
+
 public class ThresholdAlgorithm {
 	
 	public static final int CONSUMO_TOT = 2900; 
@@ -29,7 +31,7 @@ public class ThresholdAlgorithm {
 			int pl = currPlug[0];
 			int cons = currPlug[1];
 			
-			fakeSpegnimento(pl);
+			PlugConnection.setPlug(pl, false);
 			
 			consAtt -= cons;
 			
@@ -52,7 +54,4 @@ public class ThresholdAlgorithm {
 		} while(priorita<=9);
 	}
 	
-	private static void fakeSpegnimento(int r) {
-		r=0;
-	}
 }
